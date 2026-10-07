@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bloom Pet Care 🐾</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", Arial, sans-serif;
+            background: #fff7f8;
+            color: #594a4d;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg, #f8cdd8, #f9dfe5);
+            padding: 35px 20px;
+            text-align: center;
+            border-bottom: 3px solid #f2b8c6;
+        }
+
+        header .paw {
+            font-size: 45px;
+        }
+
+        header h1 {
+            margin: 10px 0 5px;
+            color: #874f61;
+            font-size: 38px;
+        }
+
+        header p {
+            margin: 0;
+            color: #9b6878;
+            font-size: 15px;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title-section h2 {
+            color: #76525c;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .title-section p {
+            color: #a18189;
+        }
+
+        /* =========================
+           BUTTONS - ADDED
+        ========================= */
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .add-pet-button {
+            background-color: #d98da3;
+            color: white;
+        }
+
+        .add-pet-button:hover {
+            background-color: #c8758d;
+        }
+
+        .appointment-button {
+            background-color: #9a8ac4;
+            color: white;
+        }
+
+        .appointment-button:hover {
+            background-color: #8372b0;
+        }
+
+
+        /* =========================
+           ADD PET FORM - ADDED
+        ========================= */
+
+        .form-card {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(130, 80, 95, 0.10);
+            margin-bottom: 30px;
+        }
+
+        .form-card:target {
+            display: block;
+        }
+
+        .form-card h2 {
+            text-align: center;
+            color: #76525c;
+            margin-top: 0;
+        }
+
+        .form-card p {
+            text-align: center;
+            color: #a18189;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            color: #76525d;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-control {
+            padding: 12px;
+            border: 1px solid #e7ccd5;
+            border-radius: 12px;
+            background-color: #fffafa;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #d98da3;
+            box-shadow: 0 0 0 3px rgba(217, 141, 163, 0.15);
+        }
+
+        .save-button {
+            display: block;
+            margin: 25px auto 0;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            background-color: #d98da3;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background-color: #c8758d;
+        }
+
+
+        /* TABLE CARD */
+
+        .table-card {
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(130, 80, 95, 0.10);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #d98da3;
+            color: white;
+            padding: 15px 12px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        th:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f1e1e5;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #fff2f5;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* PET NAME */
+
+        .pet-name {
+            font-weight: bold;
+            color: #805466;
+        }
+
+        /* PET TYPE */
+
+        .pet-type {
+            background: #fce4ea;
+            color: #a45f75;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* PET ID */
+
+        .pet-id {
+            color: #b17b89;
+            font-weight: bold;
+        }
+
+        /* EMPTY */
+
+        .no-pets {
+            text-align: center;
+            color: #a48c92;
+            padding: 35px !important;
+        }
+
+        .no-pets .emoji {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #a7868f;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+
+            header h1 {
+                font-size: 30px;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .table-card {
+                padding: 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-button {
+                width: 220px;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="paw">
+            🐾
+        </div>
+
+        <h1>Bloom Pet Care</h1>
+
+        <p>
+            Where every little paw matters 🌸
+        </p>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container">
+
+        <div class="title-section">
+
+            <h2>🐶 Our Lovely Pets 🐱</h2>
+
+            <p>
+                Meet all the adorable pets registered in our system.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ACTION BUTTONS
+        ========================= -->
+
+        <div class="action-buttons">
+
+            <a href="#add-pet" class="action-button add-pet-button">
+                🐾 + Add Pet
+            </a>
+
+            <a href="#" class="action-button appointment-button">
+                📅 + Add Appointment
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             ADD PET FORM
+        ========================= -->
+
+        <div class="form-card" id="add-pet">
+
+            <h2>🐾 Add a New Pet</h2>
+
+            <p>
+                Enter your pet's information below 💕
+            </p>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>🐾 Pet ID</label>
+
+                        {{ form.pet_id }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>💗 Pet Name</label>
+
+                        {{ form.pet_name }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>🐶 Pet Type</label>
+
+                        {{ form.pet_type }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>🌸 Breed</label>
+
+                        {{ form.breed }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>🎂 Age</label>
+
+                        {{ form.age }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>👤 Owner Name</label>
+
+                        {{ form.owner_name }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>📱 Contact Number</label>
+
+                        {{ form.contact_number }}
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="save-button">
+                    🐾 Save Pet
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- PET TABLE -->
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>🐾 ID</th>
+                        <th>💗 Pet Name</th>
+                        <th>🐶 Type</th>
+                        <th>🌸 Breed</th>
+                        <th>🎂 Age</th>
+                        <th>👤 Owner</th>
+                        <th>📱 Contact</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for pet in pets %}
+
+                    <tr>
+
+                        <td>
+                            <span class="pet-id">
+                                #{{ pet.pet_id }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="pet-name">
+                                {{ pet.pet_name }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="pet-type">
+                                {{ pet.pet_type }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ pet.breed }}
+                        </td>
+
+                        <td>
+                            {{ pet.age }} years
+                        </td>
+
+                        <td>
+                            {{ pet.owner_name }}
+                        </td>
+
+                        <td>
+                            {{ pet.contact_number|default:"Not provided" }}
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="no-pets">
+
+                            <span class="emoji">
+                                🐾
+                            </span>
+
+                            No pets found yet. 💕
+                            <br>
+
+                            Add your first furry friend!
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        Made with ♡ for our furry friends 🐾🌷
+
+    </footer>
+
+</body>
+</html>
